@@ -10,19 +10,21 @@
 <body>
 
     <div class="container">
+
         <h1>Age Calculator</h1>
 
-        <p>Enter your date of birth to calculate your age.</p>
+        <p>Calculate your exact age in years, months and days.</p>
 
-        <label for="dob">Select Your Date of Birth:</label>
-
+        <label for="dob">Date of Birth:</label>
         <input type="date" id="dob">
 
-        <button onclick="calculateAge()">
-            Calculate Age
-        </button>
+        <label for="currentDate">Calculate Age As Of:</label>
+        <input type="date" id="currentDate">
+
+        <button onclick="calculateAge()">Calculate Age</button>
 
         <div id="result"></div>
+
     </div>
 
     <script src="script.js"></script>

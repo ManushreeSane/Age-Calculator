@@ -1,57 +1,66 @@
 
+// Set today's date automatically
+window.onload = function () {
+    let today = new Date();
+
+    let year = today.getFullYear();
+    let month = String(today.getMonth() + 1).padStart(2, '0');
+    let day = String(today.getDate()).padStart(2, '0');
+
+    document.getElementById("currentDate").value =
+        `${year}-${month}-${day}`;
+
+    document.getElementById("currentDate").max =
+        `${year}-${month}-${day}`;
+
+    document.getElementById("dob").max =
+        `${year}-${month}-${day}`;
+};
+
 function calculateAge() {
 
-    // Get the date entered by the user
     let dob = document.getElementById("dob").value;
+    let currentDate = document.getElementById("currentDate").value;
 
     let result = document.getElementById("result");
 
-    // Check if date is selected
-    if (dob === "") {
-        result.innerHTML = "Please select your date of birth!";
+    if (dob === "" || currentDate === "") {
+        result.innerHTML = "Please select both dates!";
         return;
     }
 
-    // Convert the entered date into a Date object
     let birthDate = new Date(dob + "T00:00:00");
+    let selectedDate = new Date(currentDate + "T00:00:00");
 
-    // Get today's date
-    let today = new Date();
-
-    // Check for a future date
-    if (birthDate > today) {
-        result.innerHTML = "Please enter a valid date!";
+    if (birthDate > selectedDate) {
+        result.innerHTML =
+            "Date of birth cannot be after the selected current date!";
         return;
     }
 
-    // Calculate years, months and days
-    let years = today.getFullYear() - birthDate.getFullYear();
+    let years = selectedDate.getFullYear() - birthDate.getFullYear();
+    let months = selectedDate.getMonth() - birthDate.getMonth();
+    let days = selectedDate.getDate() - birthDate.getDate();
 
-    let months = today.getMonth() - birthDate.getMonth();
-
-    let days = today.getDate() - birthDate.getDate();
-
-    // Adjust days if they are negative
     if (days < 0) {
         let previousMonthDays = new Date(
-            today.getFullYear(),
-            today.getMonth(),
+            selectedDate.getFullYear(),
+            selectedDate.getMonth(),
             0
         ).getDate();
 
-        days = days + previousMonthDays;
+        days += previousMonthDays;
         months--;
     }
 
-    // Adjust months if they are negative
     if (months < 0) {
-        months = months + 12;
+        months += 12;
         years--;
     }
 
-    // Display the final result
     result.innerHTML =
-        "Your Age is: " + years + " Years, " +
+        "Your Age is:<br>" +
+        years + " Years, " +
         months + " Months, " +
-        days + " Days.";
+        days + " Days";
 }
